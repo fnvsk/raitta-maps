@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face { font-family: Unbounded; font-weight: 200 900; src: url('../../landing/fonts/unbounded-latin-wght-normal.woff2') format('woff2'); }
+      @font-face { font-family: Inter; font-weight: 100 900; src: url('../../landing/fonts/inter-latin-wght-normal.woff2') format('woff2'); }
+      html, body { margin: 0; }
+      .card { position: relative; width: 1200px; height: 586px; overflow: hidden; background: #155eef; color: #fff; font-family: Inter, sans-serif; }
+      .route { position: absolute; inset: 0; }
+      .copy { position: absolute; left: 80px; top: 66px; width: 640px; }
+      .brand { display: flex; align-items: center; gap: 22px; }
+      .brand svg { width: 92px; height: 92px; }
+      .brand b { font: 800 104px/1 Unbounded, sans-serif; letter-spacing: 0.01em; }
+      .tag { margin: 34px 0 0; font: 750 46px/1.12 Unbounded, sans-serif; letter-spacing: -0.02em; }
+      .lead { margin: 26px 0 0; font-size: 28px; line-height: 1.35; color: rgb(255 255 255 / 0.88); }
+      .chips { display: flex; gap: 12px; margin-top: 36px; }
+      .chips span { padding: 10px 20px; border-radius: 999px; background: rgb(255 255 255 / 0.14); font-size: 22px; font-weight: 700; }
+      .chips span:first-child { background: #ffc83d; color: #0e1526; }
+      .moose { position: absolute; right: 30px; bottom: -46px; width: 452px; filter: drop-shadow(0 30px 40px rgb(14 21 38 / 0.35)); }
+      .site { position: absolute; left: 80px; bottom: 44px; font-size: 24px; font-weight: 700; color: rgb(255 255 255 / 0.75); }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <svg class="route" viewBox="0 0 1200 586" fill="none" stroke-linecap="round">
+        <path d="M-40 560C220 560 260 400 480 400S760 240 980 210 1180 90 1260 80" stroke="#3d80ff" stroke-width="26" />
+        <path d="M200 700C280 560 520 590 680 550S1060 420 1260 460" stroke="#0f4fd1" stroke-width="26" />
+        <g fill="#fff"><circle cx="480" cy="400" r="9" /><circle cx="740" cy="300" r="9" /></g>
+      </svg>
+      <div class="copy">
+        <div class="brand">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 50V14h17.5a12.5 12.5 0 0 1 0 25H21" /><path d="M38 39l11 11" /><circle cx="37.5" cy="26.5" r="3.6" fill="#fff" stroke="none" /></svg>
+          <b>RAITTA</b>
+        </div>
+        <p class="tag">Move with the city.</p>
+        <p class="lead">Live buses, trams, metro and trains across Finland, with trip planning and tickets.</p>
+        <div class="chips"><span>19 cities</span><span>Live map</span><span>Trip planner</span></div>
+      </div>
+      <img class="moose" src="../../landing/mascot/moose-900.webp" alt="" />
+      <div class="site">raitta.fi</div>
+    </div>
+  </body>
+</html>

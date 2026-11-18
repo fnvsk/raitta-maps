@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RAITTA</string>
+    <string name="title_activity_main">RAITTA</string>
+    <string name="package_name">com.raitta.fi</string>
+    <string name="custom_url_scheme">com.raitta.fi</string>
+</resources>

@@ -1,0 +1,21 @@
+[
+  { "id": "helsinki", "name": "Helsinki", "sv": "Helsingfors", "ru": "Хельсинки", "gtfs": "https://infopalvelut.storage.hsldev.com/gtfs/hsl.zip", "realtime": { "kind": "hsl" } },
+  { "id": "tampere", "name": "Tampere", "sv": "Tammerfors", "ru": "Тампере", "gtfs": "https://data.itsfactory.fi/journeys/files/gtfs/latest/extended_gtfs_tampere.zip", "realtime": { "kind": "itsfactory" } },
+  { "id": "turku", "name": "Turku", "sv": "Åbo", "ru": "Турку", "gtfs": "http://data.foli.fi/gtfs/gtfs.zip", "realtime": { "kind": "digitransit", "feed": "FOLI" } },
+  { "id": "oulu", "name": "Oulu", "sv": "Uleåborg", "ru": "Оулу", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/229.zip", "realtime": { "kind": "digitransit", "feed": "OULU" } },
+  { "id": "jyvaskyla", "name": "Jyväskylä", "sv": "Jyväskylä", "ru": "Ювяскюля", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/209.zip", "realtime": { "kind": "digitransit", "feed": "LINKKI" } },
+  { "id": "kuopio", "name": "Kuopio", "sv": "Kuopio", "ru": "Куопио", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/221.zip", "realtime": { "kind": "digitransit", "feed": "Kuopio" } },
+  { "id": "lahti", "name": "Lahti", "sv": "Lahtis", "ru": "Лахти", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/223.zip", "realtime": { "kind": "digitransit", "feed": "Lahti" } },
+  { "id": "pori", "name": "Pori", "sv": "Björneborg", "ru": "Пори", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/231.zip", "realtime": { "kind": "digitransit", "feed": "Pori" } },
+  { "id": "joensuu", "name": "Joensuu", "sv": "Joensuu", "ru": "Йоэнсуу", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/207.zip", "realtime": { "kind": "digitransit", "feed": "Joensuu" } },
+  { "id": "lappeenranta", "name": "Lappeenranta", "sv": "Villmanstrand", "ru": "Лаппеэнранта", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/225.zip", "realtime": { "kind": "digitransit", "feed": "Lappeenranta" } },
+  { "id": "hameenlinna", "name": "Hämeenlinna", "sv": "Tavastehus", "ru": "Хямеэнлинна", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/203.zip", "realtime": { "kind": "digitransit", "feed": "Hameenlinna" } },
+  { "id": "vaasa", "name": "Vaasa", "sv": "Vasa", "ru": "Вааса", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/249.zip", "realtime": { "kind": "digitransit", "feed": "Vaasa" } },
+  { "id": "rovaniemi", "name": "Rovaniemi", "sv": "Rovaniemi", "ru": "Рованиеми", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/237.zip", "realtime": { "kind": "digitransit", "feed": "Rovaniemi" } },
+  { "id": "kotka", "name": "Kotka", "sv": "Kotka", "ru": "Котка", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/217.zip", "realtime": { "kind": "digitransit", "feed": "Kotka" } },
+  { "id": "kouvola", "name": "Kouvola", "sv": "Kouvola", "ru": "Коувола", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/219.zip", "realtime": { "kind": "digitransit", "feed": "Kouvola" } },
+  { "id": "mikkeli", "name": "Mikkeli", "sv": "S:t Michel", "ru": "Миккели", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/227.zip", "realtime": { "kind": "digitransit", "feed": "Mikkeli" } },
+  { "id": "salo", "name": "Salo", "sv": "Salo", "ru": "Сало", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/239.zip", "realtime": { "kind": "digitransit", "feed": "VARELY" } },
+  { "id": "kajaani", "name": "Kajaani", "sv": "Kajana", "ru": "Каяани", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/211.zip", "realtime": { "kind": "digitransit", "feed": "Kajaani" } },
+  { "id": "raasepori", "name": "Raasepori", "sv": "Raseborg", "ru": "Расепори", "gtfs": "https://tvv.fra1.digitaloceanspaces.com/232.zip", "realtime": { "kind": "digitransit", "feed": "VARELY" } }
+]

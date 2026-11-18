@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: Unbounded;
+        font-weight: 200 900;
+        src: url('../../landing/fonts/unbounded-latin-wght-normal.woff2') format('woff2');
+      }
+      html, body { margin: 0; width: 640px; height: 360px; overflow: hidden; background: #155eef; }
+      svg { display: block; }
+    </style>
+  </head>
+  <body>
+    <svg id="scene" width="640" height="360" viewBox="0 0 640 360"></svg>
+    <script>
+      const CITIES = {
+        Helsinki: [60.17, 24.94], Raasepori: [60.07, 23.66], Salo: [60.38, 23.13], Turku: [60.45, 22.27],
+        Hämeenlinna: [61.0, 24.46], Tampere: [61.5, 23.76], Pori: [61.48, 21.8], Vaasa: [63.1, 21.62],
+        Lahti: [60.98, 25.66], Kouvola: [60.87, 26.7], Kotka: [60.47, 26.95], Lappeenranta: [61.06, 28.19],
+        Mikkeli: [61.69, 27.27], Jyväskylä: [62.24, 25.75], Kuopio: [62.89, 27.68], Joensuu: [62.6, 29.76],
+        Kajaani: [64.22, 27.73], Oulu: [65.01, 25.47], Rovaniemi: [66.5, 25.73],
+      };
+      const LINES = [
+        ['#ffc83d', ['Helsinki', 'Hämeenlinna', 'Tampere', 'Vaasa', 'Oulu', 'Rovaniemi']],
+        ['#ffffff', ['Turku', 'Salo', 'Raasepori', 'Helsinki', 'Lahti', 'Kouvola', 'Lappeenranta', 'Joensuu']],
+        ['#5ee39a', ['Pori', 'Tampere', 'Jyväskylä', 'Kuopio', 'Kajaani', 'Oulu']],
+        ['#ff7a59', ['Kotka', 'Kouvola', 'Mikkeli', 'Kuopio', 'Joensuu']],
+      ];
+      const LABELS = ['Helsinki', 'Tampere', 'Turku', 'Oulu', 'Kuopio', 'Rovaniemi', 'Vaasa', 'Joensuu'];
+      const place = ([lat, lon]) => [372 + (lon - 21.4) * 27, 336 - (lat - 60) * 47];
+
+      const ns = 'http://www.w3.org/2000/svg';
+      const svg = document.getElementById('scene');
+      const add = (tag, attrs, parent = svg) => {
+        const node = document.createElementNS(ns, tag);
+        for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+        parent.append(node);
+        return node;
+      };
+
+      const title = add('text', { x: 34, y: 150, fill: '#fff', 'font-family': 'Unbounded', 'font-size': 52, 'font-weight': 800 });
+      title.textContent = 'RAITTA';
+      const tagline = add('text', { x: 36, y: 184, fill: '#dbe7ff', 'font-family': 'Unbounded', 'font-size': 15, 'font-weight': 600 });
+      tagline.textContent = 'Liiku kaupungin mukana';
+      const cities = add('text', { x: 36, y: 226, fill: '#ffc83d', 'font-family': 'Unbounded', 'font-size': 15, 'font-weight': 700 });
+
+      const paths = LINES.map(([color, stops]) => {
+        const d = stops.map((name, i) => `${i ? 'L' : 'M'}${place(CITIES[name]).join(' ')}`).join('');
+        const path = add('path', { d, stroke: color, 'stroke-width': 7, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+        return { path, length: path.getTotalLength(), color };
+      });
+      const stops = Object.entries(CITIES).map(([name, city]) => {
+        const [x, y] = place(city);
+        const dot = add('circle', { cx: x, cy: y, r: 5.5, fill: '#155eef', stroke: '#fff', 'stroke-width': 3 });
+        let label = null;
+        if (LABELS.includes(name)) {
+          label = add('text', { x, y: y - 12, 'text-anchor': 'middle', fill: '#fff', 'font-family': 'Unbounded', 'font-size': 11, 'font-weight': 700 });
+          label.textContent = name;
+        }
+        return { dot, label, x };
+      });
+      const cars = paths.map(({ color }) => add('circle', { r: 6, fill: color, stroke: '#0e1526', 'stroke-width': 2.5 }));
+
+      const y0 = (dot) => 336 - Number(dot.getAttribute('cy'));
+      const clamp = (v) => Math.min(1, Math.max(0, v));
+      const ease = (v) => 1 - (1 - v) ** 3;
+
+      window.DURATION = 6;
+      window.render = (t) => {
+        title.setAttribute('opacity', ease(clamp(t / 0.6)));
+        tagline.setAttribute('opacity', ease(clamp((t - 0.3) / 0.6)));
+        paths.forEach(({ path, length }, i) => {
+          const progress = ease(clamp((t - 0.4 - i * 0.45) / 1.8));
+          path.setAttribute('stroke-dasharray', `${length} ${length}`);
+          path.setAttribute('stroke-dashoffset', length * (1 - progress));
+        });
+
+        stops.forEach(({ dot, label, x }) => {
+          const shown = ease(clamp((t - 0.6 - (y0(dot) - 30) / 300 * -1 - 1) / 0.4));
+          dot.setAttribute('r', 5.5 * shown);
+          if (label) label.setAttribute('opacity', shown);
+        });
+        cars.forEach((car, i) => {
+          const { path, length } = paths[i];
+          const point = path.getPointAtLength(((t * 0.18 + i * 0.27) % 1) * length);
+          car.setAttribute('cx', point.x);
+          car.setAttribute('cy', point.y);
+          car.setAttribute('opacity', clamp((t - 2.6 - i * 0.2) / 0.5));
+        });
+        const shown = Math.min(19, Math.round(clamp((t - 2.4) / 1.6) * 19));
+        cities.textContent = shown ? `${shown} kaupunkia · 19 cities` : '';
+      };
+      window.ready = document.fonts.ready;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Behind the status and navigation bars in dark mode: the app's dark background. -->
+    <color name="raita_bars">#101827</color>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Behind the status and navigation bars: the app's own light background. -->
+    <color name="raita_bars">#F5F7FB</color>
+    <!-- The launch screen, in both themes. -->
+    <color name="raita_launch">#155EEF</color>
+</resources>

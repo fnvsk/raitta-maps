@@ -1,0 +1,11 @@
+[Unit]
+Description=RAITTA nightly timetable and fuel price build
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/raitta-data/update-data.sh
+# Never more than an hour, even on a bad night.
+TimeoutStartSec=3600
+Nice=15

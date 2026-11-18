@@ -1,0 +1,18 @@
+services:
+  valhalla:
+    image: ghcr.io/valhalla/valhalla-scripted:3.9.1
+    container_name: raitta-route
+    restart: unless-stopped
+    volumes:
+      - ./custom_files:/custom_files
+    environment:
+      tile_urls: ''
+      use_tiles_ignore_pbf: 'True'
+      force_rebuild: 'False'
+      build_elevation: 'False'
+      server_threads: '2'
+    ports:
+      - '127.0.0.1:8002:8002'
+    mem_limit: 1g
+    logging:
+      options: { max-size: 10m, max-file: '3' }

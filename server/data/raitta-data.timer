@@ -1,0 +1,11 @@
+[Unit]
+Description=Rebuild RAITTA timetables every night
+
+[Timer]
+# 04:20 in Finland, when hardly anyone travels; a missed night runs at the next start.
+OnCalendar=*-*-* 04:20:00 Europe/Helsinki
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

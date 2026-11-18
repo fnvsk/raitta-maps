@@ -1,0 +1,114 @@
+limit_req_zone $binary_remote_addr zone=raitta_route:10m rate=30r/s;
+
+proxy_cache_path /var/cache/raitta-flights levels=1 keys_zone=raitta_flights:1m max_size=50m inactive=24h use_temp_path=off;
+map $upstream_http_content_length $raitta_flights_empty {
+    "0" 1;
+    default 0;
+}
+map $upstream_http_content_length $raitta_flights_cache_control {
+    "0" "no-store";
+    default "public, max-age=60";
+}
+
+map $http_origin $raitta_route_cors {
+    default "";
+    ~^https://((www|maps)\.)?raitta\.fi$ $http_origin;
+    ~^https://raita-xi\.vercel\.app$ $http_origin;
+    ~^https://localhost$ $http_origin;
+    ~^capacitor://localhost$ $http_origin;
+    ~^http://localhost(:[0-9]+)?$ $http_origin;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name route.raitta.fi;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/raitta-acme;
+    }
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+#TLS server {
+#TLS     listen 443 ssl http2;
+#TLS     listen [::]:443 ssl http2;
+#TLS     server_name route.raitta.fi;
+#TLS
+#TLS     ssl_certificate /etc/letsencrypt/live/route.raitta.fi/fullchain.pem;
+#TLS     ssl_certificate_key /etc/letsencrypt/live/route.raitta.fi/privkey.pem;
+#TLS
+#TLS     add_header Access-Control-Allow-Origin $raitta_route_cors always;
+#TLS     add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
+#TLS     add_header Access-Control-Allow-Headers "Content-Type" always;
+#TLS     add_header Access-Control-Max-Age 86400 always;
+#TLS     add_header Vary Origin always;
+#TLS
+#TLS     client_max_body_size 1m;
+#TLS     gzip on;
+#TLS     gzip_types application/json application/xml text/xml;
+#TLS
+#TLS     location ~ ^/(route|locate|trace_attributes|sources_to_targets|status)$ {
+#TLS         if ($request_method = OPTIONS) {
+#TLS             return 204;
+#TLS         }
+#TLS         limit_req zone=raitta_route burst=200 nodelay;
+#TLS         proxy_pass http://127.0.0.1:8002;
+#TLS         proxy_hide_header Access-Control-Allow-Origin;
+#TLS         proxy_hide_header Access-Control-Allow-Methods;
+#TLS         proxy_hide_header Access-Control-Allow-Headers;
+#TLS         proxy_read_timeout 30s;
+#TLS     }
+#TLS
+#TLS     location /data/ {
+#TLS         root /var/www/raitta-data;
+#TLS         add_header Access-Control-Allow-Origin "*" always;
+#TLS         add_header Cache-Control "public, max-age=600, s-maxage=600, stale-while-revalidate=86400" always;
+#TLS         types { application/json json; application/gzip gz; }
+#TLS     }
+#TLS
+#TLS     location = /road-events.json {
+#TLS         root /var/www/raitta-route;
+#TLS         expires 1m;
+#TLS     }
+#TLS
+#TLS     location ~ "^/flights/(dep|arr)/[A-Z]{3}$" {
+#TLS         add_header Access-Control-Allow-Origin $raitta_route_cors always;
+#TLS         add_header Vary Origin always;
+#TLS         add_header Cache-Control $raitta_flights_cache_control always;
+#TLS         if ($request_method = OPTIONS) {
+#TLS             return 204;
+#TLS         }
+#TLS         limit_req zone=raitta_route burst=50 nodelay;
+#TLS         rewrite "^/flights/(dep|arr)/([A-Z]{3})$" /flights/public/v0/flights/$1/$2 break;
+#TLS         include /etc/nginx/raitta-finavia.conf;
+#TLS         proxy_set_header Host apigw.finavia.fi;
+#TLS         proxy_set_header User-Agent "RAITTA/1.0 (https://raitta.fi)";
+#TLS         proxy_set_header Accept "application/xml";
+#TLS         proxy_set_header Accept-Encoding "";
+#TLS         proxy_set_header Cookie "";
+#TLS         proxy_set_header Origin "";
+#TLS         proxy_set_header Referer "";
+#TLS         proxy_http_version 1.1;
+#TLS         proxy_set_header Connection "";
+#TLS         proxy_ssl_server_name on;
+#TLS         proxy_pass https://apigw.finavia.fi;
+#TLS         proxy_cache raitta_flights;
+#TLS         proxy_cache_valid 200 2m;
+#TLS         proxy_cache_lock on;
+#TLS         proxy_no_cache $raitta_flights_empty;
+#TLS         proxy_cache_background_update on;
+#TLS         proxy_ignore_client_abort on;
+#TLS         proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+#TLS         proxy_ignore_headers Cache-Control Expires Set-Cookie Vary;
+#TLS         proxy_hide_header Set-Cookie;
+#TLS         proxy_hide_header Access-Control-Allow-Origin;
+#TLS         proxy_read_timeout 20s;
+#TLS     }
+#TLS
+#TLS     location / {
+#TLS         return 404;
+#TLS     }
+#TLS }
