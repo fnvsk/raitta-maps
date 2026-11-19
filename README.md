@@ -104,3 +104,7 @@ update must be signed with the same key, or phones will refuse to install it.
 Transit data: ITS Factory, HSL, Föli, Waltti and Digitransit open data. Map: OpenFreeMap,
 OpenMapTiles and OpenStreetMap contributors. Place search: Photon. RAITA is independent
 and not affiliated with any transport authority.
+
+## Contributing
+
+Ideas, bug reports and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
